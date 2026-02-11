@@ -1,12 +1,13 @@
 import os
 from pathlib import Path
+from decouple import config, Csv
 
 # Build paths inside the project
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-change-me'
-DEBUG = True
-ALLOWED_HOSTS = []
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-me')
+DEBUG = config('DEBUG', default=True, cast=bool)
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,.vercel.app', cast=Csv())
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -20,6 +21,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -64,3 +66,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
