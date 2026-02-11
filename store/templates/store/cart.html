@@ -1,0 +1,43 @@
+{% extends 'store/base.html' %}
+{% block content %}
+  <div style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
+    <h2>🛒 Your Shopping Cart</h2>
+    
+    {% if items %}
+      <div style="margin: 2rem 0;">
+        {% for it in items %}
+          <div class="cart-item">
+            <div>
+              <strong>{{ it.product.name }}</strong>
+              <br>
+              <span style="color: #666;">Quantity: {{ it.quantity }}</span>
+            </div>
+            <div style="text-align: right;">
+              <div class="product-price">${{ it.product.price }}</div>
+              <div style="color: #999; font-size: 0.9rem;">
+                Subtotal: ${{ it.subtotal|floatformat:2 }}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      
+      <div class="cart-total">
+        Total: <span style="color: #667eea;">${{ total|floatformat:2 }}</span>
+      </div>
+      
+      <form action="{% url 'store:checkout' %}" method="post" style="margin-top: 2rem;">
+        {% csrf_token %}
+        <button type="submit" class="btn" style="font-size: 1.1rem; padding: 1rem 2rem;">
+          ✓ Proceed to Checkout
+        </button>
+      </form>
+      <a href="/" class="btn" style="margin-left: 1rem; background: #6c757d;">Continue Shopping</a>
+    {% else %}
+      <div class="empty-message">
+        <p style="font-size: 1.2rem;">Your cart is empty.</p>
+        <p style="margin-top: 1rem;"><a href="/" class="btn">Start Shopping</a></p>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

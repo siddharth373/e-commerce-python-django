@@ -1,0 +1,49 @@
+{% extends 'store/base.html' %}
+{% block content %}
+  <div style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
+    <h2>{{ product.name }}</h2>
+    <p style="color: #666; margin: 1rem 0; line-height: 1.8;">{{ product.description }}</p>
+    <div class="product-price">${{ product.price }}</div>
+    
+    <form action="{% url 'store:add_to_cart' product.pk %}" method="post" style="margin: 1.5rem 0;">
+      {% csrf_token %}
+      <button type="submit" class="btn">Add to Cart</button>
+    </form>
+
+    <hr style="margin: 2rem 0;">
+
+    <h3>👍 How do you feel about this product?</h3>
+    <div class="feedback-buttons">
+      <form method="post" action="{% url 'store:feedback' %}" style="display: inline;">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="like">
+        <input type="hidden" name="product" value="{{ product.pk }}">
+        <button type="submit" class="btn btn-like btn-small">👍 Like</button>
+      </form>
+      <form method="post" action="{% url 'store:feedback' %}" style="display: inline;">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="dislike">
+        <input type="hidden" name="product" value="{{ product.pk }}">
+        <button type="submit" class="btn btn-dislike btn-small">👎 Dislike</button>
+      </form>
+    </div>
+
+    <hr style="margin: 2rem 0;">
+
+    <h3>✨ Similar Products (Recommended)</h3>
+    <div class="recommendations">
+      {% if recommendations %}
+        <ul class="product-list">
+          {% for r in recommendations %}
+            <li>
+              <a href="{% url 'store:product_detail' r.id %}">{{ r.name }}</a>
+              <span style="color: #999; font-size: 0.9rem;"> (Match: {{ r.score|floatformat:2 }})</span>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No recommendations yet. Like more products to get personalized suggestions!</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

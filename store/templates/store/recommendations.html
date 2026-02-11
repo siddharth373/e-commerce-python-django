@@ -1,0 +1,28 @@
+{% extends 'store/base.html' %}
+{% block content %}
+  <h2>✨ AI-Powered Recommendations</h2>
+  <p style="color: #666; margin-bottom: 2rem;">
+    These personalized recommendations are based on your browsing history and product preferences.
+  </p>
+  
+  {% if products %}
+    <div class="product-grid">
+      {% for p in products %}
+        <div class="product-card">
+          <a href="{% url 'store:product_detail' p.pk %}">{{ p.name }}</a>
+          <p style="color: #666; font-size: 0.95rem; margin: 0.5rem 0;">{{ p.description }}</p>
+          <div class="product-price">${{ p.price }}</div>
+          <form action="{% url 'store:add_to_cart' p.pk %}" method="post" style="margin-top: 1rem;">
+            {% csrf_token %}
+            <button type="submit" class="btn">Add to Cart</button>
+          </form>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-message">
+      <p>No recommendations yet. Visit products and like items to get personalized suggestions!</p>
+      <a href="/" class="btn" style="margin-top: 1rem;">Browse Products</a>
+    </div>
+  {% endif %}
+{% endblock %}

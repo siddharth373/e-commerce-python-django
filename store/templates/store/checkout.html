@@ -1,0 +1,23 @@
+{% extends 'store/base.html' %}
+{% block content %}
+  <div style="background: white; padding: 3rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); max-width: 600px; margin: 0 auto;">
+    <h2 style="text-align: center; color: #28a745; margin-bottom: 2rem;">✓ Order Confirmed!</h2>
+    
+    <div style="background: #f0f8f0; border-left: 4px solid #28a745; padding: 1.5rem; border-radius: 5px; margin-bottom: 2rem;">
+      <h3 style="color: #28a745; margin: 0 0 0.5rem 0;">Thank you for your purchase!</h3>
+      <p style="color: #666; margin: 0.5rem 0;">Your order has been successfully placed and will be processed soon.</p>
+    </div>
+    
+    <div style="text-align: center; padding: 2rem 0;">
+      <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+        A confirmation email will be sent to your inbox shortly with your order details.
+      </p>
+      <a href="/" class="btn" style="font-size: 1rem; padding: 0.75rem 2rem;">Continue Shopping</a>
+    </div>
+    
+    <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #ddd; text-align: center; color: #999; font-size: 0.9rem;">
+      <p>Order Reference: #{{ request.session.session_key|truncatewords:2 }}</p>
+      <p>Visit <a href="/recommendations/" style="color: #667eea;">AI Recommendations</a> to discover more products you might like!</p>
+    </div>
+  </div>
+{% endblock %}
